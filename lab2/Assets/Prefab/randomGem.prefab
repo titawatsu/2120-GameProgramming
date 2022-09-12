@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -2524209462495756287}
   - component: {fileID: 8236908405352964341}
   m_Layer: 0
-  m_Name: yellowGem
+  m_Name: randomGem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
