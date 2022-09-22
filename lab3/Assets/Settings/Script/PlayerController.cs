@@ -5,11 +5,12 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-
+    [Header("Player Movement")]
     [SerializeField] private float moveInput;
     [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float jumpAmplitude = 7f;
+    [SerializeField] private float jumpAmplitude = 5f;
 
+    [Header("For Player Components")]
     [SerializeField] private SpriteRenderer sRenderer;
 
     [SerializeField] private GemColor playerColor;
@@ -24,14 +25,18 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private BoxCollider2D boxCol2d;
 
+    [SerializeField] private PlayerAnimationController animController;
+
     [Header("For checking Ground")]
     [SerializeField] private LayerMask groundLayers;
-    [SerializeField] private float extraGroundCheckDistance = 0.5f;
+    [SerializeField] private float extraGroundCheckDistance = 0.05f;
+
     private bool isGrounded;
     private bool groundState;
 
-    [SerializeField] private PlayerAnimationController animController;
-
+    [Header("For coyote time")]
+    [SerializeField] private float coyoteTime = 0.15f;
+    [SerializeField] private float coyoteCount;
 
     void Start()
     {
@@ -43,6 +48,7 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         CheckGround();
+        CheckCoyotetime();
         SetAnimParameter();
         SpriteDirection();
     }
@@ -65,15 +71,17 @@ public class PlayerController : MonoBehaviour
         TryJumpFunction();
     }
 
-    private void Jump(float force)
+    public void Jump(float force)
     {
         rb.velocity = new Vector2(rb.velocity.x, 0f);
-        rb.AddForce(transform.up * jumpAmplitude, ForceMode2D.Impulse);
+        rb.AddForce(transform.up * force, ForceMode2D.Impulse);
+        coyoteCount = 0f;
     }
 
     private void TryJumpFunction()
     {
-        if (!isGrounded) return;
+        if (!isGrounded && coyoteCount <= 0f) return;
+        
         Jump(jumpAmplitude);
     }
 
@@ -86,6 +94,18 @@ public class PlayerController : MonoBehaviour
         else if (moveInput > 0)
         {
             transform.localScale = new Vector3(1, 1, 1);
+        }
+    }
+
+    private void CheckCoyotetime()
+    {
+        if (isGrounded)
+        {
+            coyoteCount = coyoteTime;
+        }
+        else
+        {
+            coyoteCount -= Time.deltaTime;
         }
     }
 

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class JumpPad : MonoBehaviour
 {
-    [SerializeField] private float jumpPadForce = 15f;
-    [SerializeField] private float additionalSleepJumpTime = 15f;
+    [SerializeField] private float jumpPadForce = 10f;
+    [SerializeField] private float additionalSleepJumpTime = 13f;
 
     [SerializeField] private Animator anim;
 
@@ -15,9 +15,12 @@ public class JumpPad : MonoBehaviour
 
     public float GetAdditionalSleepJumpTime() => additionalSleepJumpTime;
 
+    [SerializeField] private PlayerController player;
+
     public void TriggerJumpPad()
     {
         anim.SetTrigger("Bounce");
+        player.Jump(jumpPadForce);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
