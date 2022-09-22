@@ -16,3 +16,4 @@ MonoBehaviour:
   sprite: {fileID: 0}
   outlineSprite: {fileID: 0}
   respawnable: 0
+  respawnObject: {fileID: 0}

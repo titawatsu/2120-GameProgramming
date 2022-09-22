@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float moveInput;
     [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float jumpAmplitude = 5f;
+    [SerializeField] private float jumpAmplitude = 7f;
 
     [SerializeField] private SpriteRenderer sRenderer;
 
@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Collider2D playerCollider;
 
+    [SerializeField] private BoxCollider2D boxCol2d;
 
     [Header("For checking Ground")]
     [SerializeField] private LayerMask groundLayers;
@@ -36,8 +37,6 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-
-        Debug.Log(powerupCollectible.GetCollectibleType());
         
     }
 
@@ -47,7 +46,7 @@ public class PlayerController : MonoBehaviour
         SetAnimParameter();
         SpriteDirection();
     }
-
+    #region Actions
     private void FixedUpdate()
     {
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
@@ -62,11 +61,35 @@ public class PlayerController : MonoBehaviour
 
     private void OnJump(InputValue value)
     {
-        if (value.isPressed)
+        if (!value.isPressed) return;
+        TryJumpFunction();
+    }
+
+    private void Jump(float force)
+    {
+        rb.velocity = new Vector2(rb.velocity.x, 0f);
+        rb.AddForce(transform.up * jumpAmplitude, ForceMode2D.Impulse);
+    }
+
+    private void TryJumpFunction()
+    {
+        if (!isGrounded) return;
+        Jump(jumpAmplitude);
+    }
+
+    private void SpriteDirection()
+    {
+        if (moveInput < 0)
         {
-            rb.AddForce(transform.up * jumpAmplitude, ForceMode2D.Impulse);
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else if (moveInput > 0)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
         }
     }
+
+    #endregion
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -87,7 +110,18 @@ public class PlayerController : MonoBehaviour
                     break;
 
             }
-            Destroy(gemFunc.gameObject);
+            collision.gameObject.SetActive(false);
+            //Destroy(gemFunc.gameObject);
+            
+        }
+
+        if (collision.CompareTag("Finish")){
+            GameManager.instance.LoadNextLevel();
+        }
+
+        if (boxCol2d.IsTouchingLayers(LayerMask.GetMask("Hazard")))
+        {
+            TakeDamage();
         }
     }
 
@@ -110,15 +144,8 @@ public class PlayerController : MonoBehaviour
         isGrounded = raycastHit.collider != null;
     }
 
-    private void SpriteDirection()
+    private void TakeDamage()
     {
-        if (moveInput < 0)
-        {
-            transform.localScale = new Vector3(-1, 1, 1);
-        }
-        else if (moveInput > 0)
-        {
-            transform.localScale = new Vector3(1, 1, 1);
-        }
+        GameManager.instance.ProcessPlayerDeath();
     }
 }

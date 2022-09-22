@@ -9,6 +9,7 @@ public class PowerupCollectible : ScriptableObject
     [SerializeField] private Sprite sprite;
     [SerializeField] private Sprite outlineSprite;
     [SerializeField] private bool respawnable;
+    
 
     public Sprite GetSprite() => sprite;
 
@@ -17,5 +18,7 @@ public class PowerupCollectible : ScriptableObject
     public Sprite GetOutlineSprite() => outlineSprite;
 
     public bool GetRespawnable() => respawnable;
+
+    
 
 }
