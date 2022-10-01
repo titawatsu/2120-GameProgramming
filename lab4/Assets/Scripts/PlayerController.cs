@@ -33,11 +33,11 @@ public class PlayerController : MonoBehaviour
     private float _lastJumpTimer;
 
     // Stored References
-    private GameManager _gameManager;
+    private GameManager gameManager;
 
     private void Start()
     {
-        _gameManager = FindObjectOfType<GameManager>();
+        gameManager = FindObjectOfType<GameManager>();
     }
     private void Update()
     {
@@ -134,7 +134,7 @@ public class PlayerController : MonoBehaviour
     
     public void TakeDamage()
     {
-        _gameManager.ProcessPlayerDeath();
+        gameManager.ProcessPlayerDeath();
     }
     
     #endregion
@@ -155,6 +155,11 @@ public class PlayerController : MonoBehaviour
         TryJumping();
     }
 
+    private void OnQuit(InputValue value)
+    {
+        if(value.isPressed) gameManager.LoadLevelMenu();
+
+    }
     #endregion
 
 }
