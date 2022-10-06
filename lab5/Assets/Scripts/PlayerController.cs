@@ -1,4 +1,4 @@
-using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -140,8 +140,15 @@ public class PlayerController : MonoBehaviour
     
     public void TakeDamage()
     {
-        playerAudio.PlayDeathSound();
+        
         FindGameManager();
+        StartCoroutine(HitDelay());
+    }
+
+    private IEnumerator HitDelay()
+    {
+        playerAudio.PlayDeathSound();
+        yield return new WaitForSeconds(0.05f);
         _gameManager.ProcessPlayerDeath();
     }
 
