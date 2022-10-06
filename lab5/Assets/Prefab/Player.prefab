@@ -216,10 +216,11 @@ MonoBehaviour:
   walkAudioClips: {fileID: 11400000, guid: 711600c385e832246b91b28d23aaba97, type: 2}
   jumpAudioClips: {fileID: 11400000, guid: b2ade5ebe1eebe24caad8571666a4dc6, type: 2}
   fallAudioClips: {fileID: 11400000, guid: 5a1f39120e7c7e440bc3d2aa8c7f39db, type: 2}
-  JumppadAudioClips: {fileID: 11400000, guid: aaf38dece8b59e842b5b0e42004fc63d, type: 2}
+  jumppadAudioClips: {fileID: 11400000, guid: aaf38dece8b59e842b5b0e42004fc63d, type: 2}
   collectGetAudioClips: {fileID: 11400000, guid: bfee6fd258172cf42b0bebacc1f4a0e7, type: 2}
   collectRespawnAudioClips: {fileID: 11400000, guid: 7ef600b0d22465a4692d8293ec6d6587, type: 2}
   deathAudioClips: {fileID: 11400000, guid: 134e32e7e8498f24ab0a880aa6f4eb84, type: 2}
+  finishAudioClips: {fileID: 11400000, guid: 2f99a9c59f3a4df43ac4614f83a82b1f, type: 2}
 --- !u!82 &1537891135525012568
 AudioSource:
   m_ObjectHideFlags: 0

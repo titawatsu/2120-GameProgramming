@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class FinishLine : MonoBehaviour
@@ -7,6 +8,8 @@ public class FinishLine : MonoBehaviour
     private GameManager _gameManager;
 
     private bool _triggeredNextScene;
+
+    [SerializeField] private AudioSource finishSoundPlay;
     
     // Why are we checking if the player reaches the finish line here? So, we do not
     // have to check for every time the player collides with something for a finish line.
@@ -19,6 +22,16 @@ public class FinishLine : MonoBehaviour
 
         _triggeredNextScene = true;   // This is to prevent double scene loads.
         _gameManager = FindObjectOfType<GameManager>();
+        
+        StartCoroutine(LoadSceneDelay());
+        
+        
+    }
+
+    private IEnumerator LoadSceneDelay()
+    {
+        finishSoundPlay.Play();
+        yield return new WaitForSeconds(1);
         _gameManager.LoadNextLevel();
     }
 }
